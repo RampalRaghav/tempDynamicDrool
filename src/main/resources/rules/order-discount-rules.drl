@@ -25,36 +25,3 @@ then
 end
 
 
-rule "Test Rule - 3"
-when
-	orderLine : OrderLine($rulesQualified : rulesQualified)
-	rules: RuleSetup() from $rulesQualified
-	
-then
-	System.out.println("RuleQualified_" + rules.getRuleNumber() 
-		+ " for OrderLine_" + orderLine.getOrderLineNumber());	  
-	
-end
-
-/*
-rule "Test Rule - 2"
-no-loop
-when
-	$ruleMap: RuleMap($ruleMaps : ruleMapObj)
-	$orderMap: OrderMap($orderMaps : orderMapObj)
-	
-	Map.Entry( $ruleKey: key, $ruleValue: value ) from $ruleMaps.entrySet()
-	tempRuleMap : Map() from $ruleValue
-	Map.Entry( $columnKey: key, $columnValue: value ) from tempRuleMap.entrySet()
-	
-	Map.Entry( $orderKey: key, $orderValue: value ) from $orderMaps.entrySet()
-	tempOrderMap : Map() from $orderValue
-	
-	Map.Entry( $columnKey == key && $columnValue == value ) from tempOrderMap.entrySet()
-	
-
-then
-	System.out.println("\ncolumnKey: " + $columnKey + "\ncolumnValue: " + $columnValue + "\nrule number: " + $ruleKey);
-	
-end
-*/

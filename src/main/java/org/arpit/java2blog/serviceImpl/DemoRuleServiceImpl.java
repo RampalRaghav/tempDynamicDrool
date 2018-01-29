@@ -10,8 +10,6 @@ import java.util.Map.Entry;
 import org.arpit.java2blog.dao.DemoRuleDao;
 import org.arpit.java2blog.model.Account;
 import org.arpit.java2blog.model.OrderLine;
-import org.arpit.java2blog.model.OrderMap;
-import org.arpit.java2blog.model.RuleMap;
 import org.arpit.java2blog.model.RuleSetup;
 import org.arpit.java2blog.model.form.DemoForm;
 import org.arpit.java2blog.revListner.CustomAgendaEventListener;
@@ -39,8 +37,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 	public KieSessionBean kieSession;
 	private TrackingAgendaEventListener agendaEventListener;
 	private TrackingWorkingMemoryEventListener workingMemoryEventListener;
-	private RuleMap ruleMap;
-	private OrderMap orderMap;
 
 	@Autowired
 	DemoRuleDao demoRuleDao;
@@ -57,9 +53,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		kieSession.addEventListener(agendaEventListener);
 		kieSession.addEventListener(workingMemoryEventListener);
 		kieSession.addEventListener( new CustomAgendaEventListener() ); //audit
-
-		ruleMap = new RuleMap();
-		orderMap = new OrderMap();
 
 	}
 
@@ -108,7 +101,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		columnValuePair.put("familyCode", "HB");
 		tempMap.put(3, columnValuePair);
 
-		ruleMap.setRuleMapObj(tempMap);
 		return tempMap;
 
 	}
@@ -149,7 +141,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 
 		tempMap.put(1, columnValuePair);
 
-		orderMap.setOrderMapObj(tempMap);
 		return tempMap;
 	}
 
@@ -178,9 +169,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		addRuleSetupValues();
 		addOrderLineValues();
 		
-		kieSession.insert(ruleMap);
-		kieSession.insert(orderMap);
-
 		for(RuleSetup ruleSetup : getRuleSetupList()) {
 			kieSession.insert(ruleSetup);
 		}

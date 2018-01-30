@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,9 @@ import org.hibernate.annotations.Proxy;
 @Entity
 @Proxy(lazy=false)
 @Table(name="Rule_Setup")
-public class RuleSetup {
+public class RuleSetup{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="rule_id")
@@ -36,7 +37,7 @@ public class RuleSetup {
 	@JoinTable(name = "RULE_ACCOUNT", joinColumns = { @JoinColumn(name = "rule_id") }, inverseJoinColumns = { @JoinColumn(name = "account_id") })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Account> account = new ArrayList<Account>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "RULE_PRODUCT", joinColumns = { @JoinColumn(name = "rule_id") }, inverseJoinColumns = { @JoinColumn(name = "prd_id") })
 	@LazyCollection(LazyCollectionOption.FALSE)

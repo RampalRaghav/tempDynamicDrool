@@ -51,6 +51,12 @@ public class DemoRuleDaoImpl implements DemoRuleDao {
 	@Transactional
 	public void addOrderLineSetUp(OrderLine orderLine) {
 		Session session = this.sessionFactory.getCurrentSession();
+		
+		/*Session session = this.sessionFactory
+				.withOptions()
+				.interceptor(new MyInterceptor())
+				.openSession();*/
+		
 		session.save(orderLine);
 
 	}

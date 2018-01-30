@@ -1,12 +1,13 @@
-	package org.arpit.java2blog.model;
+package org.arpit.java2blog.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,23 +32,22 @@ public class OrderLine {
 
 	@Column(name="orderLineNumber")
 	private Integer orderLineNumber;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "ORDER_RULE", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = { @JoinColumn(name = "rule_id") })
-	private List<RuleSetup> rulesQualified = new ArrayList<RuleSetup>();
-
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "ORDER_ACCOUNT", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = { @JoinColumn(name = "account_id") })
 	private List<Account> account = new ArrayList<Account>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "ORDER_PRODUCT", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = { @JoinColumn(name = "prd_id") })
 	private List<Product> product = new ArrayList<Product>();
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "ORDER_RULE", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = { @JoinColumn(name = "rule_id") })
+	private Set<RuleSetup> rulesQualified = new HashSet<RuleSetup>();
+
 	public Integer getId() {
 		return id;
 	}
@@ -80,12 +80,12 @@ public class OrderLine {
 		this.orderLineNumber = orderLineNumber;
 	}
 
-	public List<RuleSetup> getRulesQualified() {
+	public Set<RuleSetup> getRulesQualified() {
 		return rulesQualified;
 	}
 
-	public void setRulesQualified(List<RuleSetup> rulesQualified) {
+	public void setRulesQualified(Set<RuleSetup> rulesQualified) {
 		this.rulesQualified = rulesQualified;
 	}
-	
+
 }

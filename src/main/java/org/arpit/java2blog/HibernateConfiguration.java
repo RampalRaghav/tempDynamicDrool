@@ -3,6 +3,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.arpit.java2blog.model.MyInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +38,7 @@ public class HibernateConfiguration {
 
 	@Value("${entitymanager.packagesToScan}")
 	private String PACKAGES_TO_SCAN;
-
+	
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -53,6 +54,7 @@ public class HibernateConfiguration {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(PACKAGES_TO_SCAN);
+		sessionFactory.setEntityInterceptor(new MyInterceptor());
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.put("hibernate.dialect", DIALECT);
 		hibernateProperties.put("hibernate.show_sql", SHOW_SQL);

@@ -135,11 +135,19 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		Map<Integer, Map<String, String>> tempMap = new HashMap<Integer, Map<String, String>>();
 		Map<String, String> columnValuePair = new HashMap<String, String>();
 
+		//Order line-1
 		columnValuePair.put("accountNumber", "123");
 		columnValuePair.put("accountType", "51");
 		columnValuePair.put("ISBN", "111");
 
 		tempMap.put(1, columnValuePair);
+		
+		//Order line-2
+		columnValuePair = new HashMap<String, String>();
+		columnValuePair.put("ISBN", "222");
+		columnValuePair.put("accountType", "52");
+
+		tempMap.put(2, columnValuePair);
 
 		return tempMap;
 	}
@@ -180,9 +188,9 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		kieSession.fireAllRules();
 		
 		for(OrderLine orderLine : orderLineList) {
+			System.out.print("\nOrderLine: " + orderLine.getOrderLineNumber() + "; Rules Qualified: ");
 			for(RuleSetup rules : orderLine.getRulesQualified()) {
-				System.out.println("RuleQualified_" + rules.getRuleNumber() 
-					+ " for OrderLine_" + orderLine.getOrderLineNumber());	  
+				System.out.print(rules.getRuleNumber() + ",");	  
 			}
 		}
 		

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import org.arpit.java2blog.dao.DemoRuleDao;
 import org.arpit.java2blog.model.Account;
+import org.arpit.java2blog.model.AuditTrail;
 import org.arpit.java2blog.model.OrderLine;
 import org.arpit.java2blog.model.RuleSetup;
 import org.arpit.java2blog.model.form.DemoForm;
@@ -31,13 +32,13 @@ import com.technorage.demo.drools.spring.KieSessionBean;
 
 @Service
 @Scope(value=ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode=ScopedProxyMode.INTERFACES)
-public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable {
+public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable  {
 
 	private static final long serialVersionUID = -8700062519048895244L;
 	public KieSessionBean kieSession;
 	private TrackingAgendaEventListener agendaEventListener;
 	private TrackingWorkingMemoryEventListener workingMemoryEventListener;
-
+	
 	@Autowired
 	DemoRuleDao demoRuleDao;
 
@@ -154,8 +155,9 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 
 	@Override
 	public String generateOffer(DemoForm demoForm, Model model) {
+		updateRuleSetup();
 		loadKieSession();
-
+		
 		return ("index");
 	}
 
@@ -172,10 +174,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 
 	private void loadKieSession() {
 		List<OrderLine> orderLineList = getOrderSetupList();
-		
-		//load kieSession again for case when server is restarted
-		addRuleSetupValues();
-		addOrderLineValues();
 		
 		for(RuleSetup ruleSetup : getRuleSetupList()) {
 			kieSession.insert(ruleSetup);
@@ -196,6 +194,22 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		
 	}
 
+	@Override
+	public void updateRuleSetup() {
+		for(RuleSetup r : getRuleSetupList()) {
+			if(r.getRuleNumber() == 1) {
+				r.setRuleNumber(11);
+			}
+			
+			demoRuleDao.addRuleSetUp(r);
+		}
+	}
+	
+	@Override
+	public void addAuditTrail(AuditTrail auditTrail) {
+		demoRuleDao.addAuditTrail(auditTrail);
+	}
+	
 }
 
 

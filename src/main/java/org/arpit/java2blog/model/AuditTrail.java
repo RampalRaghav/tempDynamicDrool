@@ -22,6 +22,9 @@ public class AuditTrail {
 	@Column(name="tableName")
 	private String tableName;
 	
+	@Column(name="fieldName")
+	private String fieldName;
+	
 	@Column(name="columnIdentifier")
 	private String columnIdentifier;
 	
@@ -80,6 +83,14 @@ public class AuditTrail {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
 
 }

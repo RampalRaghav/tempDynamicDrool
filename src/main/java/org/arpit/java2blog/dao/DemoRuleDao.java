@@ -2,6 +2,7 @@ package org.arpit.java2blog.dao;
 
 import java.util.List;
 
+import org.arpit.java2blog.model.AuditTrail;
 import org.arpit.java2blog.model.OrderLine;
 import org.arpit.java2blog.model.RuleSetup;
 
@@ -11,5 +12,6 @@ public interface DemoRuleDao {
 	public List<RuleSetup> getAllRuleSetup();
 	public List<OrderLine> getAllOrderLineSetup();
 	public void addOrderLineSetUp(OrderLine orderLine);
-
+	public void addAuditTrail(AuditTrail auditTrail);
+	
 }

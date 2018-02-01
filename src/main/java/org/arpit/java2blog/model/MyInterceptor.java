@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Table;
 
+import org.arpit.java2blog.serviceImpl.DemoRuleServiceImpl;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
@@ -46,6 +47,8 @@ public class MyInterceptor extends EmptyInterceptor {
 				+ "\nNew Value: " + auditTrail.getNewValue()
 				+ "\nField Name: " + auditTrail.getFieldName()
 				+ "\nTable Name: " + auditTrail.getTableName());
+				
+				DemoRuleServiceImpl.setAuditTrail(auditTrail);
 			}           
 		}      
 

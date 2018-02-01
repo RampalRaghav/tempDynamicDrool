@@ -15,7 +15,7 @@ import org.hibernate.annotations.Proxy;
 public class AuditTrail {
 
 	@Id
-	@Column(name="rule_id")
+	@Column(name="audit_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;   
 	

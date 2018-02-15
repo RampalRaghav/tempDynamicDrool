@@ -12,6 +12,6 @@ public interface DemoRuleDao {
 	public List<RuleSetup> getAllRuleSetup();
 	public List<OrderLine> getAllOrderLineSetup();
 	public void addOrderLineSetUp(OrderLine orderLine);
-	public void addAuditTrail(AuditTrail auditTrail);
+	public void addAuditTrail();
 	
 }

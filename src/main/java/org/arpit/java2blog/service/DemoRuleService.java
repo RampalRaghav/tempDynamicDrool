@@ -17,6 +17,5 @@ public interface DemoRuleService<T> {
 	void addOrder(DemoForm demoForm);
 	public String generateOffer(DemoForm demoForm, Model model);
 	void updateRuleSetup();
-	void addAuditTrail(AuditTrail auditTrail);
 	
 }

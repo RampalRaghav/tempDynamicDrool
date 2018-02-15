@@ -38,7 +38,6 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 	public KieSessionBean kieSession;
 	private TrackingAgendaEventListener agendaEventListener;
 	private TrackingWorkingMemoryEventListener workingMemoryEventListener;
-	private static AuditTrail auditTrail;
 	
 	@Autowired
 	DemoRuleDao demoRuleDao;
@@ -159,10 +158,7 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		updateRuleSetup();
 		//loadKieSession();
 		
-		if(getAuditTrail()!=null) {
-			demoRuleDao.addAuditTrail(getAuditTrail());
-		}
-		
+		demoRuleDao.addAuditTrail();
 		return ("index");
 	}
 
@@ -209,20 +205,7 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 			demoRuleDao.addRuleSetUp(r);
 		}
 	}
-	
-	@Override
-	public void addAuditTrail(AuditTrail auditTrail) {
-		demoRuleDao.addAuditTrail(auditTrail);
-	}
-	
-	public static void setAuditTrail(AuditTrail audit) {
-		auditTrail = audit;
-	}
 
-	public AuditTrail getAuditTrail() {
-		return auditTrail;
-	}
-	
 }
 
 

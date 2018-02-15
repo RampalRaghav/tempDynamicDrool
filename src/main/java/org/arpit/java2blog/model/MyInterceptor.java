@@ -1,16 +1,18 @@
 package org.arpit.java2blog.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Table;
 
-import org.arpit.java2blog.serviceImpl.DemoRuleServiceImpl;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
 public class MyInterceptor extends EmptyInterceptor {
 
 	private static final long serialVersionUID = -8604352909121459025L;
+	List<AuditTrail> auditTrailList = new ArrayList<AuditTrail>();
 	AuditTrail auditTrail = null;
 
 	@Override
@@ -24,7 +26,7 @@ public class MyInterceptor extends EmptyInterceptor {
 		for (int i = 0; i < newValues.length; i++) {              
 
 			// Check whether column value is updated
-			if(oldValues[i] != null && newValues[i] != null && !(oldValues[i].equals(newValues[i]))){
+			if(oldValues[i] != null && newValues[i] != null && !(oldValues[i].equals(newValues[i]) ) ){
 
 				auditTrail = new AuditTrail();               
 				
@@ -48,7 +50,7 @@ public class MyInterceptor extends EmptyInterceptor {
 				+ "\nField Name: " + auditTrail.getFieldName()
 				+ "\nTable Name: " + auditTrail.getTableName());
 				
-				DemoRuleServiceImpl.setAuditTrail(auditTrail);
+				auditTrailList.add(auditTrail);
 			}           
 		}      
 
@@ -68,4 +70,12 @@ public class MyInterceptor extends EmptyInterceptor {
 		return false;
 	}
 
+	public List<AuditTrail> getAuditTrailList() {
+		return auditTrailList;
+	}
+
+	public void setAuditTrailList(List<AuditTrail> auditTrailList) {
+		this.auditTrailList = auditTrailList;
+	}
+	
 }

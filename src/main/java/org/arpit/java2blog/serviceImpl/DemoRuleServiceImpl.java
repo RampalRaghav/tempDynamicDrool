@@ -18,6 +18,7 @@ import org.arpit.java2blog.service.DemoRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -163,12 +164,14 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 	}
 
 	@Override
+	@Cacheable("ruleSetup")
 	public List<RuleSetup> getRuleSetupList() {
 		// TODO Auto-generated method stub
 		return demoRuleDao.getAllRuleSetup();
 	}
 
 	@Override
+	@Cacheable("orderLine")
 	public List<OrderLine> getOrderSetupList() {
 		return demoRuleDao.getAllOrderLineSetup();
 	}

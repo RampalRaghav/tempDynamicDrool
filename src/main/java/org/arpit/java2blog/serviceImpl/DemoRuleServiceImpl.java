@@ -9,16 +9,16 @@ import java.util.Map.Entry;
 
 import org.arpit.java2blog.dao.DemoRuleDao;
 import org.arpit.java2blog.model.Account;
-import org.arpit.java2blog.model.AuditTrail;
 import org.arpit.java2blog.model.OrderLine;
 import org.arpit.java2blog.model.RuleSetup;
 import org.arpit.java2blog.model.form.DemoForm;
 import org.arpit.java2blog.revListner.CustomAgendaEventListener;
 import org.arpit.java2blog.service.DemoRuleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,9 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 	public KieSessionBean kieSession;
 	private TrackingAgendaEventListener agendaEventListener;
 	private TrackingWorkingMemoryEventListener workingMemoryEventListener;
-	
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	DemoRuleDao demoRuleDao;
 
@@ -143,7 +145,7 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		columnValuePair.put("ISBN", "111");
 
 		tempMap.put(1, columnValuePair);
-		
+
 		//Order line-2
 		columnValuePair = new HashMap<String, String>();
 		columnValuePair.put("ISBN", "222");
@@ -158,27 +160,25 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 	public String generateOffer(DemoForm demoForm, Model model) {
 		updateRuleSetup();
 		//loadKieSession();
-		
+
 		demoRuleDao.addAuditTrail();
 		return ("index");
 	}
 
 	@Override
-	@Cacheable("ruleSetup")
 	public List<RuleSetup> getRuleSetupList() {
 		// TODO Auto-generated method stub
 		return demoRuleDao.getAllRuleSetup();
 	}
 
 	@Override
-	@Cacheable("orderLine")
 	public List<OrderLine> getOrderSetupList() {
 		return demoRuleDao.getAllOrderLineSetup();
 	}
 
 	private void loadKieSession() {
 		List<OrderLine> orderLineList = getOrderSetupList();
-		
+
 		for(RuleSetup ruleSetup : getRuleSetupList()) {
 			kieSession.insert(ruleSetup);
 		}
@@ -188,24 +188,28 @@ public class DemoRuleServiceImpl<T> implements DemoRuleService<T>, Serializable 
 		}
 
 		kieSession.fireAllRules();
-		
+
 		for(OrderLine orderLine : orderLineList) {
 			System.out.print("\nOrderLine: " + orderLine.getOrderLineNumber() + "; Rules Qualified: ");
 			for(RuleSetup rules : orderLine.getRulesQualified()) {
 				System.out.print(rules.getRuleNumber() + ",");	  
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void updateRuleSetup() {
+		logger.info("In updateRuleSetup()");
+
+
 		for(RuleSetup r : getRuleSetupList()) {
 			if(r.getRuleNumber() == 1) {
 				r.setRuleNumber(11);
 			}
-			
+
 			demoRuleDao.addRuleSetUp(r);
+
 		}
 	}
 

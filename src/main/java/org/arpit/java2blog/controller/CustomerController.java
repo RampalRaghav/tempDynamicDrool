@@ -20,16 +20,18 @@ public class CustomerController {
 	DemoRuleService ruleService;
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String index(Model model,@ModelAttribute("demoForm") DemoForm formData) {
+	public String index(Model model) {
 		return getIndex(model);
 	}
+	
 	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String getHomePageindex(Model model,@ModelAttribute("demoForm") DemoForm formData) {
+	public String getHomePageindex(Model model) {
 		return getHomeIndex(model);
 	}
+	
 	/*  Add Rule*/
 	@RequestMapping(value="/addRule", method=RequestMethod.POST, produces = "application/json")
-	public List<RuleSetup> addRule(@ModelAttribute DemoForm demoForm,Model model) {
+	public List<RuleSetup> addRule(@ModelAttribute DemoForm demoForm) {
 		ruleService.addRule(demoForm);
 		return ruleService.getRuleSetupList();
 	}
